@@ -27,6 +27,5 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-<span style="font-size: 20px">I am currently a first year Ph.D candidate at PKU-IC, working at the Ultra Low-Power Logic and Memory Group advised by [Prof. Qianqian Huang](http://scholar.pku.edu.cn/qianqianhuang). My research focuses on novel memory and storage system designs, ferroelectric-based computing-in-memory accelerations.</span>
+<span style="font-size: 20px">I am currently a first year Ph.D candidate at PKU-IC, working at the Ultra Low-Power Logic and Memory Group advised by [Prof. Qianqian Huang](http://scholar.pku.edu.cn/qianqianhuang). My research focuses on ferroelectric-based computing-in-memory accelerations and novel NVM device and systems. </span>
 
-<span style="font-size: 20px">I received my B.Eng. degree in Electronic Engineering from Tsinghua University in 2022, working on the neuromorphic computing based on emerging devices advised by [Prof. Xueqing Li](https://nics.ee.tsinghua.edu.cn/people/Xueqing/).</span>
