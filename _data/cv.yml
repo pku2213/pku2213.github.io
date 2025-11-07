@@ -27,7 +27,7 @@
 - title: Representative Works
   type: time_table
   contents:
-    - items: none, but i'm working on! :)
+    - items: "none, but i'm working on! :)"
       year: Future
 
 - title: Honors and Awards
@@ -40,5 +40,4 @@
 - title: Other Interests
   type: list
   contents:
-    - <u>Hobbies:</u> Running, <a href="https://mp.weixin.qq.com/s/BAVt4_raD-exL4-m4z05FA">Coffee making</a>, etc.
-
+    - "<u>Hobbies:</u> Running, <a href='https://mp.weixin.qq.com/s/BAVt4_raD-exL4-m4z05FA'>Coffee making</a>, etc."
