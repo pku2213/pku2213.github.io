@@ -2,11 +2,75 @@
   type: map
   contents:
     - name: Name
-      value: Zebin Zhang (张泽彬)
+      value: Shengjie Cao (曹胜杰)
     - name: Contact
-      value: zhang_zebin@stu.pku.edu.cn
+      value: csj@stu.pku.edu.cn
     - name: Languages
-      value: Chinese (native), English (fluent)
+      value: Chinese (native speaker), English (fluent)
 
+- title: Education
+  type: time_table
+  contents:
+    - title: Ph.D Candidate
+      institution: School of Integrated Circuits, Peking University
+      year: 2022 - present
+      description:
+        - Research Interests - Novel memory and storage system designs, ferroelectric-based computing-in-memory accelerations
+        - Advisor - <a href="http://scholar.pku.edu.cn/qianqianhuang">Prof. Qianqian Huang</a>
+        # - title: Description 3.
+         # contents:
+           # - Sub-description 1.
+           # - Sub-description 2.
+    - title: Undergraduate
+      institution: Department of Electronic Engineering, Tsinghua University
+      year: 2018 - 2022
+      description:
+        - Bachelor's degree thesis - Design of High-density Computing-in-Memory with Ferroelectric Tunnel Junction
+        - Advisor - <a href="https://nics.ee.tsinghua.edu.cn/people/Xueqing/">Prof. Xueqing Li</a>
 
+- title: Representative Works
+  type: time_table
+  contents:
+    - items: '"Hafnia-based XP-FeRAM: A Novel High-speed and Low-power Cross-point Ferroelectric Memory for Data-intensive Applications", IEEE EDTM 2025 (Invited)'
+      year: Mar 2025
+    - items: '"Comprehensive Performance Re-assessment of Hafnia-based Cross-point FeRAM with Ultra-fast and Low-power Operation from Device/Array Perspective", IEEE IEDM 2024'
+      year: Dec 2024
+    - items: '"First Demonstration of Hafnia-based Selector-Free FeRAM with High Disturb Immunity through Design Technology Co-Optimization", IEEE IEDM 2023 (Co-first author)'
+      year: Dec 2023
 
+- title: Experience
+  type: time_table
+  contents:
+    - title: Algorithm Intern
+      institution: <a href="https://www.megvii.com/">Megvii Technology</a>
+      year: 2021
+      description:
+        - Computer Vision
+
+#- title: Honors and Awards
+ # type: time_table
+  #contents:
+   # - year: 1921
+    #  items:
+     #   - Nobel Prize in Physics
+      #  - Matteucci Medal
+    #- year: 2029
+     # items:
+      #  - Max Planck Medal
+
+#- title: Academic Interests
+ # type: nested_list
+  #contents:
+   # - title: Topic 1.
+    #  items:
+     #   - Description 1.
+      #  - Description 2.
+    #- title: Topic 2.
+     # items:
+      #  - Description 1.
+       # - Description 2.
+
+#- title: Other Interests
+ # type: list
+  #contents:
+   # - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
