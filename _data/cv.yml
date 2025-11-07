@@ -1,12 +1,12 @@
-- title: General Information
+- title: Basics
   type: map
   contents:
     - name: Name
-      value: Zebin Zhang（张泽彬）
-    - name: Date of Birth
-      value: 18th January 2004
+      value: Zebin Zhang (张泽彬)
+    - name: Contact
+      value: zhang_zebin@stu.pku.edu.cn
     - name: Languages
-      value: Chinese(native), English(fluent)
+      value: Chinese (native), English (fluent)
 
 - title: Education
   type: time_table
