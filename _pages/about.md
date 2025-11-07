@@ -6,7 +6,7 @@ subtitle: <a href="https://ic.pku.edu.cn/">School of Integrated Circuits</a><br>
 
 profile:
   align: right
-  image: avatar1.jpg
+  image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>Micro & Nanoelectronics Building</p>
