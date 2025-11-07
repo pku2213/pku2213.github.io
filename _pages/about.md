@@ -27,5 +27,4 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-<span style="font-size: 20px">I am currently a first year Ph.D candidate at PKU-IC, working at the Ultra Low-Power Logic and Memory Group advised by [Prof. Qianqian Huang](http://scholar.pku.edu.cn/qianqianhuang). My research focuses on ferroelectric-based computing-in-memory accelerations and novel NVM device and systems.</span>
 
