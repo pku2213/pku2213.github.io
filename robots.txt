@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://pku2213.github.io/al-folio/sitemap.xml
+Sitemap: https://pku2213.github.io/sitemap.xml
