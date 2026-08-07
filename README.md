@@ -79,6 +79,16 @@ pku2213.github.io/
 
 原始 EDTM/SNW 演示文稿继续保存在各自的研究目录中，无需复制进公开仓库。为网站整理的研究摘要位于本机 `_local_docs/research-summaries/`，该目录不会上传到 GitHub。
 
+### 4. 替换浏览器标签页图标
+
+准备一张正方形或接近正方形的 PNG/JPG 图片，在项目根目录运行：
+
+```powershell
+python .\tools\build_favicon.py "图片的完整路径"
+```
+
+脚本会自动生成浏览器需要的 32 px、192 px、Apple touch icon 和 `favicon.ico`。如果原图不是正方形，会从中心裁剪。生成后运行 `publish.ps1` 即可发布；浏览器可能缓存旧图标，可用 `Ctrl+F5` 刷新，或关闭原标签页后重新打开。
+
 ## 本地预览
 
 在 PowerShell 中运行：

@@ -140,6 +140,8 @@ def run() -> None:
 
         assert desktop.title() == "Zebin Zhang"
         assert desktop.locator("#about-title").inner_text() == "Zebin Zhang"
+        assert desktop.locator("link[rel~='icon'][href='assets/img/favicon-personal-32.png']").count() == 1
+        assert desktop.locator("link[rel='apple-touch-icon'][href='assets/img/apple-touch-icon.png']").count() == 1
         publication_count = desktop.locator("#publications article.publication-entry").count()
         assert publication_count >= 1
         assert desktop.locator("img:not([alt]), img[alt='']").count() == 0

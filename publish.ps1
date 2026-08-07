@@ -142,6 +142,7 @@ try {
     foreach ($requiredPath in @(
         (Join-Path $projectRoot ".git"),
         (Join-Path $siteRoot "index.html"),
+        (Join-Path $siteRoot "favicon.ico"),
         (Join-Path $siteRoot "assets\site.css"),
         (Join-Path $siteRoot "assets\site.js")
     )) {
