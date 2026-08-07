@@ -74,7 +74,7 @@ function Invoke-SiteQa {
         $env:QA_DIRECTORY = $qaDirectory
         & python $qaScript
         if ($LASTEXITCODE -ne 0) {
-            throw "Website QA failed. If Playwright is missing, run: pip install playwright; python -m playwright install chromium"
+            throw "Website QA failed with exit code $LASTEXITCODE. Read the Python traceback above; install Playwright only if it explicitly reports a missing module or browser."
         }
     }
     finally {
@@ -191,15 +191,18 @@ try {
         }
 
         Invoke-Git -Arguments @("commit", "-m", $Message)
-        Invoke-Git -Arguments @("push", "origin", "main")
-        Write-Host "Changes pushed to origin/main." -ForegroundColor Green
     }
     elseif ($diffExitCode -eq 0) {
-        Write-Host "No website changes to commit. Verifying the current public copy."
+        Write-Host "No uncommitted website changes found."
     }
     else {
         throw "Unable to inspect staged website changes."
     }
+
+    # Always push: this also publishes commits that were created manually or by
+    # an earlier run that stopped before reaching the push step.
+    Invoke-Git -Arguments @("push", "origin", "main")
+    Write-Host "origin/main is synchronized. Verifying the public copy." -ForegroundColor Green
 
     Wait-ForPublicSite -LocalIndexPath (Join-Path $siteRoot "index.html") -TimeoutSeconds $PublishTimeoutSeconds
     Write-Host "Published successfully: $publicUrl" -ForegroundColor Cyan

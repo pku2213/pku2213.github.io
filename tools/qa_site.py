@@ -142,7 +142,9 @@ def run() -> None:
         assert desktop.locator("main h1").count() == 4
         assert desktop.locator("main h2").count() == 3
         assert desktop.locator(".site-nav a[href='#news']").count() == 1
-        assert desktop.locator("#honors .honors-list li").count() == 3
+        # Honors are user-editable content. Verify the section is populated and
+        # well formed without freezing the website to an exact item count.
+        assert desktop.locator("#honors .honors-list li").count() >= 1
         assert desktop.locator("#research-title + .research-list li").count() == 3
         assert desktop.locator("#research-title + .research-list li > span").count() == 3
         assert desktop.locator("#research-title + .research-list strong").count() == 6
@@ -183,17 +185,18 @@ def run() -> None:
         assert float(desktop.locator("main h1").first.evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")) >= 42
         assert float(desktop.locator(".publication-text h2").first.evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")) >= 23
 
-        honors_year = desktop.locator("#honors time").last.evaluate(
-            """element => ({
-              text: element.textContent,
+        honors_years = desktop.locator("#honors time").evaluate_all(
+            """elements => elements.map(element => ({
+              text: element.textContent.trim(),
               whiteSpace: getComputedStyle(element).whiteSpace,
               clientWidth: element.clientWidth,
               scrollWidth: element.scrollWidth
-            })"""
+            }))"""
         )
-        assert honors_year["text"] == "2023"
-        assert honors_year["whiteSpace"] == "nowrap"
-        assert honors_year["scrollWidth"] <= honors_year["clientWidth"] + 1, honors_year
+        assert honors_years
+        assert all(item["text"] for item in honors_years), honors_years
+        assert all(item["whiteSpace"] == "nowrap" for item in honors_years), honors_years
+        assert all(item["scrollWidth"] <= item["clientWidth"] + 1 for item in honors_years), honors_years
 
         news_times = desktop.locator("#news time").evaluate_all(
             """elements => elements.map(element => ({
@@ -249,7 +252,7 @@ def run() -> None:
     assert not problems, "\n".join(problems)
     assert not broken_resources, "\n".join(broken_resources)
     print(
-        "PASS: concise desktop/mobile layout, News navigation, Honors content, Calibri/serif typography, "
+        "PASS: concise desktop/mobile layout, News navigation, Honors structure, Calibri/serif typography, "
         "portrait sizing, natural publication image ratios, IEEE link, assets, and console checks"
     )
 
