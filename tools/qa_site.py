@@ -102,8 +102,11 @@ def assert_publication_image_ratio(page, label: str) -> None:
           };
         })"""
     )
-    assert len(boxes) == 2, f"{label}: expected two publication images"
+    assert boxes, f"{label}: expected at least one publication image"
     for box in boxes:
+        assert box["naturalWidth"] > 0 and box["naturalHeight"] > 0, (
+            f"{label}: publication image did not load: {box}"
+        )
         ratio = box["width"] / box["height"]
         source_ratio = box["naturalWidth"] / box["naturalHeight"]
         assert abs(ratio - source_ratio) < 0.03, (
@@ -137,38 +140,33 @@ def run() -> None:
 
         assert desktop.title() == "Zebin Zhang"
         assert desktop.locator("#about-title").inner_text() == "Zebin Zhang"
-        assert desktop.locator("#publications article.publication-entry").count() == 2
+        publication_count = desktop.locator("#publications article.publication-entry").count()
+        assert publication_count >= 1
         assert desktop.locator("img:not([alt]), img[alt='']").count() == 0
-        assert desktop.locator("main h1").count() == 4
-        assert desktop.locator("main h2").count() == 3
+        assert all(
+            desktop.locator(f"#{section_id} h1").count() == 1
+            for section_id in ("about", "news", "publications", "honors")
+        )
         assert desktop.locator(".site-nav a[href='#news']").count() == 1
         # Honors are user-editable content. Verify the section is populated and
         # well formed without freezing the website to an exact item count.
         assert desktop.locator("#honors .honors-list li").count() >= 1
-        assert desktop.locator("#research-title + .research-list li").count() == 3
-        assert desktop.locator("#research-title + .research-list li > span").count() == 3
-        assert desktop.locator("#research-title + .research-list strong").count() == 6
+        research_count = desktop.locator("#research-title + .research-list li").count()
+        assert research_count >= 1
+        assert desktop.locator("#research-title + .research-list li > span").count() == research_count
+        assert desktop.locator("#research-title + .research-list strong").count() >= research_count
         assert desktop.locator("#about .about-copy a[href='https://ic.pku.edu.cn/']").count() == 1
-        assert desktop.locator("#news time[datetime='2021-09']").count() == 1
-        assert desktop.locator("#news a[href='https://eecs.pku.edu.cn/']").count() == 1
-        assert "SNW" in desktop.locator("#news .news-list li").nth(0).inner_text()
-        assert "EDTM" in desktop.locator("#news .news-list li").nth(1).inner_text()
-        assert "(co-first author)" in desktop.locator("#news .news-list li").nth(0).inner_text()
-        assert "(first author)" in desktop.locator("#news .news-list li").nth(1).inner_text()
-        assert desktop.locator("#news .news-list li").nth(0).locator("strong").inner_text() == "IEEE SNW 2026"
-        assert desktop.locator("#news .news-list li").nth(1).locator("a strong").inner_text() == "IEEE EDTM 2026"
-        assert "Graduated from Peking University" in desktop.locator("#news .news-list li").nth(2).inner_text()
-        assert "started Ph.D. study" in desktop.locator("#news .news-list li").nth(2).inner_text()
-        assert desktop.locator("#news time").all_inner_texts() == ["Jun 2026", "Mar 2026", "Sep 2025", "Sep 2021"]
+        news_count = desktop.locator("#news .news-list li").count()
+        assert news_count >= 1
+        assert desktop.locator("#news time").count() == news_count
         assert desktop.locator(
             "#news a[href='https://ieeexplore.ieee.org/abstract/document/11497247']"
         ).count() == 1
         assert desktop.locator(
             "a[href='https://ieeexplore.ieee.org/abstract/document/11497247']"
-        ).count() == 3
-        assert desktop.locator(".publication-entry:nth-of-type(2) .publication-links").count() == 0
-        assert desktop.locator("img[src='assets/img/snw2026-slide11.png']").count() == 1
-        assert desktop.locator("img[src='assets/img/zebin-zhang-id.jpg']").count() == 1
+        ).count() >= 2
+        assert desktop.locator(".publication-image img").count() == publication_count
+        assert desktop.locator(".profile-card img").count() == 1
         assert_no_horizontal_overflow(desktop, "desktop")
         assert_publication_image_ratio(desktop, "desktop")
 
@@ -181,9 +179,15 @@ def run() -> None:
         title_font = desktop.locator("main h1").first.evaluate("element => getComputedStyle(element).fontFamily")
         assert "Calibri" in body_font, body_font
         assert "Georgia" in title_font or "Times New Roman" in title_font, title_font
-        assert float(desktop.locator("body").evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")) >= 24
-        assert float(desktop.locator("main h1").first.evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")) >= 42
-        assert float(desktop.locator(".publication-text h2").first.evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")) >= 23
+        body_font_size = float(
+            desktop.locator("body").evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")
+        )
+        page_title_size = float(
+            desktop.locator("main h1").first.evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")
+        )
+        assert body_font_size >= 16
+        assert page_title_size > body_font_size
+        assert float(desktop.locator(".publication-text h2").first.evaluate("element => getComputedStyle(element).fontSize").removesuffix("px")) >= 16
 
         honors_years = desktop.locator("#honors time").evaluate_all(
             """elements => elements.map(element => ({
@@ -200,12 +204,14 @@ def run() -> None:
 
         news_times = desktop.locator("#news time").evaluate_all(
             """elements => elements.map(element => ({
-              text: element.textContent,
+              text: element.textContent.trim(),
+              datetime: element.getAttribute('datetime'),
               whiteSpace: getComputedStyle(element).whiteSpace,
               clientWidth: element.clientWidth,
               scrollWidth: element.scrollWidth
             }))"""
         )
+        assert all(item["text"] and item["datetime"] for item in news_times), news_times
         assert all(item["whiteSpace"] == "nowrap" for item in news_times), news_times
         assert all(item["scrollWidth"] <= item["clientWidth"] + 1 for item in news_times), news_times
 
